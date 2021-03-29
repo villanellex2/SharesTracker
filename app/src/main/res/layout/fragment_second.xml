@@ -7,26 +7,40 @@
     tools:context=".view.Stock">
 
     <TextView
-        android:id="@+id/stocksTextBig"
+        android:id="@+id/stocksTextLittle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginStart="15sp"
+        android:layout_marginTop="92sp"
         android:text="@string/stocks"
-        style="@style/Text.Header"
+        style="@style/Text.Gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/favoritesTextLittle"
-        style="@style/Text.Gray"
+        android:id="@+id/favoritesTextBig"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="92sp"
+        android:layout_marginTop="84dp"
         android:text="@string/favourite"
-        app:layout_constraintStart_toEndOf="@+id/stocksTextBig"
+        style="@style/Text.Header"
+        app:layout_constraintStart_toEndOf="@+id/stocksTextLittle"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/favoritesTextBig">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -43,10 +57,9 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/recyclerViewFavourites"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
