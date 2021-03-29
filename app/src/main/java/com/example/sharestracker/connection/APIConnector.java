@@ -55,4 +55,8 @@ public class APIConnector {
     public static String convertCurrency(String from, String to) throws Exception {
         return doGet("https://free.currconv.com/api/v7/convert?q=" + from + "_"+ to + "&compact=ultra&" + apiKey);
     }
+
+    public static String searchForSymbol(String symbol) throws Exception {
+        return doGet("https://finnhub.io/api/v1/search?q="+symbol+"&"+token);
+    }
 }

@@ -34,7 +34,7 @@ public class Stock extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        View curr = inflater.inflate(R.layout.fragment_first, container, false);
+        View curr = inflater.inflate(R.layout.fragment_stock, container, false);
         mRecyclerView = curr.findViewById(R.id.recyclerView);
         mAdapter = new FieldsAdapter(getContext(), list);
         ((MainActivity) getContext()).mAdapter = mAdapter;
@@ -63,6 +63,14 @@ public class Stock extends Fragment {
             public void onClick(View view) {
                 NavHostFragment.findNavController(Stock.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment);
+            }
+        });
+
+        view.findViewById(R.id.search1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(Stock.this)
+                        .navigate(R.id.action_FirstFragment_to_ThirdFragment);
             }
         });
     }

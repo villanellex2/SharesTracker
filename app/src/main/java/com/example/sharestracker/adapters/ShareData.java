@@ -65,8 +65,8 @@ public class ShareData {
             currentPrice = (float) priceJSON.getDouble("c");
             dayDelta = currentPrice - (float) priceJSON.getDouble("pc");
             isInitializedPrice = true;
-            currentPrice*=mod;
-            dayDelta*=mod;
+            currentPrice *= mod;
+            dayDelta *= mod;
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -81,14 +81,16 @@ public class ShareData {
     }
 
     public String getDayDelta() {
-        float inPerc = (int) (dayDelta / currentPrice * 1000) / 1000.f;
-        StringBuilder res = new StringBuilder();
-        if (dayDelta > 0) res.append("+");
-        res.append((int) (dayDelta * 100) / 100.f);
-        res.append('(');
-        res.append(Math.abs(inPerc));
-        res.append("%)");
-        return res.toString();
+        if (isInitializedPrice) {
+            float inPerc = (int) (dayDelta / currentPrice * 1000) / 1000.f;
+            StringBuilder res = new StringBuilder();
+            if (dayDelta > 0) res.append("+");
+            res.append((int) (dayDelta * 100) / 100.f);
+            res.append('(');
+            res.append(Math.abs(inPerc));
+            res.append("%)");
+            return res.toString();
+        } else return "";
     }
 
     public BitmapDrawable getLogo() {
@@ -96,11 +98,16 @@ public class ShareData {
     }
 
     public String getCurrentPrice() {
-        return currencyCode + " " + currentPrice;
+
+        if (isInitializedPrice) {
+            return currencyCode + " " + (int)(currentPrice*100)/100;
+        } else return "";
     }
 
     public String getCompanyName() {
-        return companyName;
+        if (isInitializedCompany) {
+            return companyName;
+        } else return "";
     }
 
     public String getName() {

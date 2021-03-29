@@ -18,7 +18,6 @@ import com.example.sharestracker.adapters.ShareData;
 import com.example.sharestracker.connection.SharesInitializer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Favourite extends Fragment {
@@ -32,7 +31,7 @@ public class Favourite extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        View curr = inflater.inflate(R.layout.fragment_second, container, false);
+        View curr = inflater.inflate(R.layout.fragment_favourite, container, false);
         mRecyclerView = curr.findViewById(R.id.recyclerViewFavourites);
         mAdapter = new FieldsAdapter(getContext(), list);
         ((MainActivity)getContext()).mAdapter = mAdapter;
@@ -57,11 +56,19 @@ public class Favourite extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.stocksTextLittle).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.stock2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(Favourite.this)
                         .navigate(R.id.action_SecondFragment_to_FirstFragment);
+            }
+        });
+
+        view.findViewById(R.id.search2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(Favourite.this)
+                        .navigate(R.id.action_SecondFragment_to_ThirdFragment);
             }
         });
     }

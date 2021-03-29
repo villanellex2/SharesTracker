@@ -8,4 +8,5 @@
     <string name="favourite">Favourite</string>
     <string name="find_company_or_ticker">Find company or ticket</string>
     <string name="ticket_name">Ticket name</string>
+    <string name="search">Search</string>
 </resources>

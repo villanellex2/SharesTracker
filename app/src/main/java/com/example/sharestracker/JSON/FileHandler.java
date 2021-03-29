@@ -36,7 +36,7 @@ public class FileHandler {
             favouriteShares = new ArrayList<>();
             create(context, favoriteFile, "");
         } else {
-            favouriteShares = new ArrayList(Arrays.asList(read(context, favoriteFile).split(" ")));
+            favouriteShares = new ArrayList(Arrays.asList(read(context, favoriteFile).split("&%1414]")));
         }
     }
 
@@ -44,7 +44,7 @@ public class FileHandler {
         StringBuilder builder = new StringBuilder();
         for (String s : favouriteShares) {
             builder.append(s);
-            builder.append(" ");
+            builder.append("&%1414]");
         }
         return builder.toString();
     }
