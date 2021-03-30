@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sharestracker.JSON.FileHandler;
+import com.example.sharestracker.connection.FileHandler;
 import com.example.sharestracker.R;
 
 import java.util.List;

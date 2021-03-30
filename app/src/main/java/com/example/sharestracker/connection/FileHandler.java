@@ -1,4 +1,4 @@
-package com.example.sharestracker.JSON;
+package com.example.sharestracker.connection;
 
 import android.content.Context;
 import android.content.res.Resources;

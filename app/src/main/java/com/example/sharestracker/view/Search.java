@@ -5,8 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,22 +17,17 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sharestracker.JSON.FileHandler;
 import com.example.sharestracker.adapters.FieldsAdapter;
 import com.example.sharestracker.R;
 import com.example.sharestracker.adapters.ShareData;
 import com.example.sharestracker.connection.APIConnector;
-import com.example.sharestracker.connection.SharesInitializer;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.InputStream;
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.sharestracker.connection.APIConnector.searchForSymbol;
 
 public class Search extends Fragment {
     private RecyclerView mRecyclerView;

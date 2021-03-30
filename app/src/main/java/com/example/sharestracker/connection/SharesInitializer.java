@@ -5,14 +5,11 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 
-import com.example.sharestracker.JSON.FileHandler;
 import com.example.sharestracker.adapters.FieldsAdapter;
 import com.example.sharestracker.adapters.ShareData;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;

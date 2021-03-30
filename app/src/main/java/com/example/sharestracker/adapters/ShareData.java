@@ -100,7 +100,7 @@ public class ShareData {
     public String getCurrentPrice() {
 
         if (isInitializedPrice) {
-            return currencyCode + " " + (int)(currentPrice*100)/100;
+            return currencyCode + " " + (int)(currentPrice*100)/100.f;
         } else return "";
     }
 
