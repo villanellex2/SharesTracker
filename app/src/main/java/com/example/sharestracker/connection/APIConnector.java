@@ -18,8 +18,7 @@ import okhttp3.Response;
 import static android.content.ContentValues.TAG;
 
 public class APIConnector {
-    private static String token = "token=c1c8oaf48v6scqmqo1u0";
-    private static String apiKey = "apiKey=bdc5313d1dc45e4ab6b2";
+    private static final String token = "token=c1c8oaf48v6scqmqo1u0";
 
     private static String doGet(String url)
             throws Exception {
@@ -30,6 +29,7 @@ public class APIConnector {
         //add reuqest header
         connection.setRequestMethod("GET");
 
+        Log.d(TAG,"Ask: " + url);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String inputLine;
         StringBuilder response = new StringBuilder();
@@ -53,6 +53,7 @@ public class APIConnector {
     }
 
     public static String convertCurrency(String from, String to) throws Exception {
+        String apiKey = "apiKey=bdc5313d1dc45e4ab6b2";
         return doGet("https://free.currconv.com/api/v7/convert?q=" + from + "_"+ to + "&compact=ultra&" + apiKey);
     }
 

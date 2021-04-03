@@ -21,7 +21,7 @@ import java.util.List;
 
 public class FieldsAdapter extends RecyclerView.Adapter<FieldsAdapter.ViewHolder> {
     Context context;
-    List<ShareData> responseList;
+    public List<ShareData> responseList;
     FileHandler handler;
 
     public FieldsAdapter(Context context, List<ShareData> responseList) {

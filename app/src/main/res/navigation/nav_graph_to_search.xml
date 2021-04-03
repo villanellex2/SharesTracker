@@ -9,7 +9,7 @@
         android:id="@+id/StockFragment"
         android:name="com.example.sharestracker.view.Stock"
         android:label="@string/first_fragment_label"
-        tools:layout="@layout/fragment_stock">
+        tools:layout="@layout/content_main">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
@@ -19,7 +19,7 @@
         android:id="@+id/SearchFragment"
         android:name="com.example.sharestracker.view.Favourite"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_favourite">
+        tools:layout="@layout/fragment_search">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
