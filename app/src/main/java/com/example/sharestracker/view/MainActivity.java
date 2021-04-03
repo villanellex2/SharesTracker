@@ -11,29 +11,18 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sharestracker.adapters.ShareData;
 import com.example.sharestracker.connection.FileHandler;
 import com.example.sharestracker.R;
 import com.example.sharestracker.adapters.FieldsAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
     public FieldsAdapter mAdapter;
-    public List<ShareData> dataList;
 
     @Override
     protected void onCreate(Bundle savedInstanceField) {
         super.onCreate(savedInstanceField);
         setContentView(R.layout.activity_main);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        ((LinearLayoutManager) mLayoutManager).setOrientation(LinearLayoutManager.VERTICAL);
-        RecyclerView mRecyclerView = findViewById(R.id.recyclerView);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        dataList = new ArrayList<>();
-        mAdapter = new FieldsAdapter(this, dataList);
-        mRecyclerView.setAdapter(mAdapter);
+
     }
 
     @Override
@@ -43,7 +32,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onResume() {
-        super.onResume();;
+        super.onResume();
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
     }
 
     @Override

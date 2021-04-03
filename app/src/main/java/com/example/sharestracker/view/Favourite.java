@@ -18,11 +18,12 @@ import com.example.sharestracker.adapters.ShareData;
 import com.example.sharestracker.connection.SharesInitializer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Favourite extends Fragment {
-    private List<ShareData> list;
+    private final List<ShareData> list = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+    private FileHandler handler;
     private FieldsAdapter mAdapter;
 
     @Override
@@ -31,14 +32,20 @@ public class Favourite extends Fragment {
             Bundle savedInstanceState
     ) {
         View curr = inflater.inflate(R.layout.fragment_favourite, container, false);
-        mAdapter = ((MainActivity)getContext()).mAdapter;
-        list = ((MainActivity)getContext()).dataList;
-        list.clear();
+        mRecyclerView = curr.findViewById(R.id.recyclerViewFavourites);
+        mAdapter = new FieldsAdapter(getContext(), list);
+        ((MainActivity)getContext()).mAdapter = mAdapter;
         buildRecyclerView(curr);
+        handler = new FileHandler(getContext());
         return curr;
     }
 
     private void buildRecyclerView(View view) {
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        ((LinearLayoutManager) mLayoutManager).setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
         FileHandler handler = new FileHandler(getContext());
         List<String> sharesNames = handler.getFavoritesList();
         SharesInitializer initializer = new SharesInitializer(getContext(), sharesNames,
@@ -54,6 +61,14 @@ public class Favourite extends Fragment {
             public void onClick(View view) {
                 NavHostFragment.findNavController(Favourite.this)
                         .navigate(R.id.action_SecondFragment_to_FirstFragment);
+            }
+        });
+
+        view.findViewById(R.id.search2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(Favourite.this)
+                        .navigate(R.id.action_SecondFragment_to_ThirdFragment);
             }
         });
     }

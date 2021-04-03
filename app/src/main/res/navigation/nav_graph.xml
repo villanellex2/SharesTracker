@@ -3,27 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/StockFragment">
+    app:startDestination="@id/FirstFragment">
 
     <fragment
-        android:id="@+id/StockFragment"
+        android:id="@+id/FirstFragment"
         android:name="com.example.sharestracker.view.Stock"
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_stock">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SearchFragment" />
+            app:destination="@id/SecondFragment" />
+        <action
+            android:id="@+id/action_FirstFragment_to_ThirdFragment"
+            app:destination="@id/ThirdFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SearchFragment"
+        android:id="@+id/SecondFragment"
         android:name="com.example.sharestracker.view.Favourite"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_favourite">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/StockFragment" />
+            app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_SecondFragment_to_ThirdFragment"
+            app:destination="@id/ThirdFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/ThirdFragment"
+        android:name="com.example.sharestracker.view.Search"
+        android:label="third fragment"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_ThirdFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+        <action
+            android:id="@+id/action_ThirdFragment_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
+    </fragment>
 </navigation>

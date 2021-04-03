@@ -121,5 +121,21 @@ public class Search extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        view.findViewById(R.id.favorite3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(Search.this)
+                        .navigate(R.id.action_ThirdFragment_to_SecondFragment);
+            }
+        });
+
+        view.findViewById(R.id.stock3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavHostFragment.findNavController(Search.this)
+                        .navigate(R.id.action_ThirdFragment_to_FirstFragment);
+            }
+        });
     }
 }
