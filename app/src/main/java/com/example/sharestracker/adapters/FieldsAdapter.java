@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sharestracker.connection.FileHandler;
 import com.example.sharestracker.R;
+import com.google.android.material.transition.Hold;
 
 import java.util.List;
 
@@ -57,14 +58,14 @@ public class FieldsAdapter extends RecyclerView.Adapter<FieldsAdapter.ViewHolder
         else{
             holder.star.setImageDrawable(context.getResources().getDrawable(R.drawable.grey_star));
         }
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) holder.star.getLayoutParams();
+        params.leftMargin = ((ConstraintLayout.LayoutParams)holder.ticketName.getLayoutParams()).rightToLeft + 6;
         if (ticketData.getDayDelta().startsWith("-")) {
             holder.dayDelta.setTextColor(Color.parseColor("#B22424"));
         } else {
             holder.dayDelta.setTextColor(Color.parseColor("#24B25D"));
         }
         holder.currentPrice.setText(ticketData.getCurrentPrice());
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) holder.currentPrice.getLayoutParams();
-        params.setMarginEnd(12);
     }
 
 

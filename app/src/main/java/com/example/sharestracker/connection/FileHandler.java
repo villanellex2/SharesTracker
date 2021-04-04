@@ -17,8 +17,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FileHandler {
-    public static final String favoriteFile = "favoriteStorage";
-    public static final String cache = "cacheMainMenu.json";
+    static final String favouriteFile = "favoriteStorage";
+    static final String lastSearchedFile = "lastSearched";
+    private static List<String> lastSearched;
     private static List<String> favouriteShares;
     private final Context context;
 
@@ -27,17 +28,18 @@ public class FileHandler {
     }
 
     public boolean isFavourite(String shareName) {
-        initializeFavorite();
+        favouriteShares = initializeFile(favouriteFile, favouriteShares);
         return favouriteShares.contains(shareName);
     }
 
-    private void initializeFavorite() {
-        if (!isFilePresent(context, favoriteFile)) {
-            favouriteShares = new ArrayList<>();
-            create(context, favoriteFile, "");
+    private List<String> initializeFile(String fileName, List<String> result) {
+        if (!isFilePresent(context, fileName)) {
+            result = new ArrayList<>();
+            create(context, fileName, "");
         } else {
-            favouriteShares = new ArrayList(Arrays.asList(read(context, favoriteFile).split("&%1414]")));
+            result = new ArrayList(Arrays.asList(read(context, fileName).split("&%1414]")));
         }
+        return result;
     }
 
     private String getListAsString() {
@@ -52,7 +54,7 @@ public class FileHandler {
     public boolean deleteFromFavourite(String share) {
         if (isFavourite(share)) {
             favouriteShares.remove(share);
-            return create(context, favoriteFile, getListAsString());
+            return create(context, favouriteFile, getListAsString());
         }
         return true;
     }
@@ -60,13 +62,13 @@ public class FileHandler {
     public boolean addToFavorite(String share) {
         if (!isFavourite(share)) {
             favouriteShares.add(share);
-            return create(context, favoriteFile, getListAsString());
+            return create(context, favouriteFile, getListAsString());
         }
         return true;
     }
 
     public List<String> getFavoritesList() {
-        initializeFavorite();
+        favouriteShares = initializeFile(favouriteFile, favouriteShares);
         ArrayList<String> res = new ArrayList<>();
         for(String s: favouriteShares){
             if (!s.equals("")){

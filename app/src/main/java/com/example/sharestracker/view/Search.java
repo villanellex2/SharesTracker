@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,13 +22,17 @@ import com.example.sharestracker.adapters.FieldsAdapter;
 import com.example.sharestracker.R;
 import com.example.sharestracker.adapters.ShareData;
 import com.example.sharestracker.connection.APIConnector;
+import com.example.sharestracker.connection.CurrencyStock;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 public class Search extends Fragment {
     private RecyclerView mRecyclerView;
@@ -42,30 +47,25 @@ public class Search extends Fragment {
         View curr = inflater.inflate(R.layout.fragment_search, container, false);
         mRecyclerView = curr.findViewById(R.id.recyclerView);
         mAdapter = new FieldsAdapter(getContext(), states);
-        ((MainActivity) getContext()).mAdapter = mAdapter;
+
         buildRecyclerView(curr);
         EditText search = curr.findViewById(R.id.editText);
-        search.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    // Perform action on key press
-                    try {
-                        new findSymbols().execute(search.getText().toString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    return true;
+        search.setOnKeyListener((v, keyCode, event) -> {
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                    (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                try {
+                    new findSymbols().execute(search.getText().toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                return false;
+                return true;
             }
+            return false;
         });
         return curr;
     }
 
     private class findSymbols extends AsyncTask<String, String, List<ShareData>> {
-        private String shareName;
 
         @Override
         protected List<ShareData> doInBackground(String ... symbol) {
@@ -91,12 +91,21 @@ public class Search extends Fragment {
         protected String doInBackground(String ... share) {
             try {
                 String companyProfile = APIConnector.getCompanyProfile(share[0]);
+                String price;
+                ShareData data = new ShareData(share[0]);
                 String url = (new JSONObject(companyProfile)).getString("logo");
                 InputStream in = new java.net.URL(url).openStream();
                 Bitmap bitmap = BitmapFactory.decodeStream(in);
                 BitmapDrawable logo = new BitmapDrawable(getResources(), bitmap);
-                ShareData data = new ShareData(share[0]);
                 data.setCompanyInfo(getResources(), logo, companyProfile);
+                try {
+                    price = APIConnector.askTicket(share[0]);
+                    String currency = data.getCurrencyCode();
+                    data.setPrice(price, CurrencyStock.getCurrencyToUSD(currency));
+                }
+                catch (FileNotFoundException e){
+                    data.setHasNo();
+                }
                 states.add(data);
                 return companyProfile;
             } catch (Exception e) {
@@ -121,21 +130,5 @@ public class Search extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        view.findViewById(R.id.favorite3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(Search.this)
-                        .navigate(R.id.action_ThirdFragment_to_SecondFragment);
-            }
-        });
-
-        view.findViewById(R.id.stock3).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavHostFragment.findNavController(Search.this)
-                        .navigate(R.id.action_ThirdFragment_to_FirstFragment);
-            }
-        });
     }
 }

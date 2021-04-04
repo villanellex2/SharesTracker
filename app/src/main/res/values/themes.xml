@@ -36,7 +36,7 @@
     </style>
 
     <style name="Text.Header.Little">
-        <item name="android:textSize">19sp</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:lineHeight">24dp</item>
     </style>
 

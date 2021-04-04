@@ -6,36 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".view.Stock">
 
+    <EditText
+        android:id="@+id/editText"
+        style="@style/Text"
+        android:layout_width="0sp"
+        android:layout_height="50sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="10dp"
+        android:autofillHints="@string/find_company_or_ticker"
+        android:background="@drawable/edit_text_corner"
+        android:drawableStart="@drawable/ic_search"
+        android:ems="10"
+        android:hint="@string/find_company_or_ticker"
+        android:inputType="textPersonName"
+        android:paddingStart="0sp"
+        android:paddingEnd="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
-        android:id="@+id/stock2"
+        android:id="@+id/textStocks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15sp"
-        android:layout_marginTop="18sp"
+        android:layout_marginTop="88sp"
         android:text="@string/stocks"
         style="@style/Text.Gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/favourite2"
+        android:id="@+id/textFavourite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="103dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="80dp"
         android:text="@string/favourite"
         style="@style/Text.Header"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/search2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="257sp"
-        android:layout_marginTop="18sp"
-        android:text="@string/search"
-        style="@style/Text.Gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toBottomOf="parent"
-        android:layout_marginTop="54dp"
+        android:layout_marginTop="124dp"
         android:layout_marginBottom="0dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp">

@@ -17,6 +17,7 @@ public class ShareData {
     private float dayDelta;
     private boolean isInitializedCompany = false;
     private boolean isInitializedPrice = false;
+    private boolean hasNo = false;
 
     public ShareData(String name, float currentPrice, float dayBeforePrice, String currencyCode,
                      String companyName, BitmapDrawable logoURL) {
@@ -67,9 +68,14 @@ public class ShareData {
             isInitializedPrice = true;
             currentPrice *= mod;
             dayDelta *= mod;
+            hasNo = false;
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setHasNo(){
+        hasNo = true;
     }
 
     public boolean isInitializedCompany() {
@@ -101,7 +107,10 @@ public class ShareData {
 
         if (isInitializedPrice) {
             return currencyCode + " " + (int)(currentPrice*100)/100.f;
-        } else return "";
+        } else if (hasNo){
+            return "Has no access, sorry =(";
+        }
+        else return "";
     }
 
     public String getCompanyName() {

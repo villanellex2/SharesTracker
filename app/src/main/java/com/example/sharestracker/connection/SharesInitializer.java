@@ -12,6 +12,7 @@ import com.example.sharestracker.adapters.ShareData;
 
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 
@@ -49,27 +50,28 @@ public class SharesInitializer {
             CompanyGetter getter = new CompanyGetter();
             getter.execute(shareData);
         }
+
         for (ShareData shareData : states) {
             PriceGetter getter = new PriceGetter();
             getter.execute(shareData);
         }
     }
 
-    private class PriceGetter extends AsyncTask<ShareData, String, String> {
+     class PriceGetter extends AsyncTask<ShareData, String, String> {
         private String shareName;
 
         @Override
         protected String doInBackground(ShareData... data) {
             try {
                 shareName = data[0].getName();
-                String prices = APIConnector.askTicket(data[0].getName());
-                double mod = 1;
-                if (!data[0].getCurrencyCode().equals("USD")){
-                    mod = new JSONObject(APIConnector.convertCurrency
-                            ("USD", data[0].getCurrencyCode())).getDouble("USD_" + data[0].getCurrencyCode());
+                try {
+                    String prices = APIConnector.askTicket(data[0].getName());
+                    data[0].setPrice(prices, CurrencyStock.getCurrencyToUSD((data[0].getCurrencyCode())));
+                    return prices;
+                } catch (FileNotFoundException e){
+                    data[0].setHasNo();
+                    return null;
                 }
-                data[0].setPrice(prices, mod);
-                return prices;
             } catch (Exception e) {
                 return null;
             }

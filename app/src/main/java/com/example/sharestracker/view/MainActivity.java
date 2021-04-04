@@ -1,9 +1,12 @@
 package com.example.sharestracker.view;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +18,8 @@ import com.example.sharestracker.connection.FileHandler;
 import com.example.sharestracker.R;
 import com.example.sharestracker.adapters.FieldsAdapter;
 
+import java.io.File;
+
 public class MainActivity extends AppCompatActivity {
     public FieldsAdapter mAdapter;
 
@@ -22,20 +27,42 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceField) {
         super.onCreate(savedInstanceField);
         setContentView(R.layout.activity_main);
-
+        trimCache();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+
+    public boolean trimCache() {
+        try {
+            deleteDir(getCacheDir());
+            return deleteDir(getDataDir());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else {
+            return false;
+        }
+    }
+
 
     public void onResume() {
         super.onResume();
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
+        Log.println(Log.INFO, "cache trimmed: ", String.valueOf(trimCache()));
     }
 
     @Override
@@ -45,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
+        trimCache();
         return super.onOptionsItemSelected(item);
     }
 

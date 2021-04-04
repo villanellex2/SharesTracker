@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation">
+
+    <navigation android:id="@+id/navigation"
+        app:startDestination="@id/StockFragment">
+        <fragment
+            android:id="@+id/FavouriteFragment"
+            android:name="com.example.sharestracker.view.Favourite"
+            android:label="Favourite fragment"
+            tools:layout="@layout/fragment_favourite">
+
+            <action
+                android:id="@+id/action_Favourite_to_Stock"
+                app:destination="@id/StockFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/StockFragment"
+            android:name="com.example.sharestracker.view.Stock"
+            android:label="Stock fragment"
+            tools:layout="@layout/fragment_stock">
+
+            <action
+                android:id="@+id/action_Stock_to_Favourite"
+                app:destination="@id/FavouriteFragment" />
+        </fragment>
+        <action
+            android:id="@+id/action_global_SearchFragment"
+            app:destination="@id/navigation2" />
+    </navigation>
+    <navigation android:id="@+id/navigation2"
+        app:startDestination="@id/SearchFragment">
+        <fragment
+            android:id="@+id/SearchFragment"
+            android:name="com.example.sharestracker.view.Search"
+            android:label="Search Fragment"
+            tools:layout="@layout/fragment_search"/>
+    </navigation>
+
+</navigation>

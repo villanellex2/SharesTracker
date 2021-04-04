@@ -9,6 +9,7 @@
     <TextView
         android:id="@+id/ticketName"
         android:layout_width="0dp"
+        android:maxWidth="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginTop="14dp"
@@ -21,6 +22,7 @@
         android:id="@+id/picture"
         android:layout_width="52dp"
         android:layout_height="52dp"
+        android:maxWidth="200dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,6 +34,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
+        android:autoSizeMaxTextSize="18sp"
+        android:autoSizeMinTextSize="7sp"
+        android:autoSizeStepGranularity="1sp"
+        android:autoSizeTextType="uniform"
+        android:maxWidth="170dp"
+        android:maxHeight="30dp"
         android:text="20$"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/ticketName" />
@@ -39,6 +47,7 @@
     <TextView
         android:id="@+id/companyName"
         android:layout_width="wrap_content"
+        android:maxWidth="250dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginTop="38dp"
@@ -53,6 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
         android:text="+0.15$(1.5%)"
+        android:maxWidth="200dp"
         style="@style/Text.Green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/companyName" />
