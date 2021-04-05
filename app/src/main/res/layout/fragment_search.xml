@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.Stock"
-    >
+    tools:context=".view.Stock">
 
     <EditText
         android:id="@+id/editText"
@@ -29,23 +28,23 @@
 
     <TextView
         android:id="@+id/textStocks"
+        style="@style/Text.Header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="80dp"
         android:text="@string/stocks"
-        style="@style/Text.Header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="parent"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="124dp"
-        android:layout_marginBottom="0dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp">
+        android:layout_marginBottom="0dp"
+        app:layout_constraintTop_toBottomOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,8 +54,15 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
         </LinearLayout>
     </ScrollView>
 
+    <include
+        layout="@layout/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="120dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

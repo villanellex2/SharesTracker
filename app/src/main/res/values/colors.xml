@@ -7,4 +7,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#B22424</color>
     <color name="green">#24B25D</color>
+    <color name="trgray">#90ffffff</color>
 </resources>

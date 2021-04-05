@@ -27,6 +27,7 @@ public class Favourite extends Fragment {
     private final List<ShareData> list = Collections.synchronizedList(new ArrayList<>());
     private RecyclerView mRecyclerView;
     private ShareFieldsAdapter mAdapter;
+    private View animation;
 
     @Override
     public View onCreateView(
@@ -35,6 +36,7 @@ public class Favourite extends Fragment {
     ) {
         View curr = inflater.inflate(R.layout.fragment_favourite, container, false);
         mRecyclerView = curr.findViewById(R.id.recyclerViewFavourites);
+        animation =curr.findViewById(R.id.loading_animation);
         list.clear();
         mAdapter = new ShareFieldsAdapter(getContext(), list);
         ((MainActivity)getContext()).mAdapter = mAdapter;
@@ -49,8 +51,7 @@ public class Favourite extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         List<String> sharesNames = FavouriteStorage.getFavoritesList(getContext());
-        SharesInitializer initializer = new SharesInitializer(getContext(), sharesNames,
-                getResources(), list, mAdapter);
+        SharesInitializer initializer = new SharesInitializer(getContext(), sharesNames, list, mAdapter, animation);
         initializer.fillSharesFiled();
     }
 

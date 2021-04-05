@@ -28,6 +28,7 @@ public class Stock extends Fragment {
     private RecyclerView mRecyclerView;
     final public String[] sharesNames = {"YNDX", "AAPL", "GOOGL", "AMZN", "BAC", "MSFT", "TSLA", "MA"};
     private ShareFieldsAdapter mAdapter;
+    private View animation;
 
     @Override
     public View onCreateView(
@@ -36,6 +37,7 @@ public class Stock extends Fragment {
     ) {
         View curr = inflater.inflate(R.layout.fragment_stock, container, false);
         mRecyclerView = curr.findViewById(R.id.recyclerView);
+        animation = curr.findViewById(R.id.loading_animation);
         list.clear();
         mAdapter = new ShareFieldsAdapter(getContext(), list);
         ((MainActivity) getContext()).mAdapter = mAdapter;
@@ -49,8 +51,7 @@ public class Stock extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        SharesInitializer initializer = new SharesInitializer(getContext(), Arrays.asList(sharesNames),
-                getResources(), list, mAdapter);
+        SharesInitializer initializer = new SharesInitializer(getContext(), Arrays.asList(sharesNames), list, mAdapter, animation);
         initializer.fillSharesFiled();
     }
 
@@ -65,6 +66,12 @@ public class Stock extends Fragment {
         view.findViewById(R.id.editText).setOnClickListener(v -> {
             NavController nav = NavHostFragment.findNavController(Stock.this);
             nav.navigate(R.id.navigation2);
+        });
+        view.findViewById(R.id.editText).setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                NavController nav = NavHostFragment.findNavController(Stock.this);
+                nav.navigate(R.id.navigation2);
+            }
         });
     }
 }
