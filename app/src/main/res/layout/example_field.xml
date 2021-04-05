@@ -4,17 +4,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="68dp">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp">
 
     <TextView
         android:id="@+id/ticketName"
-        android:layout_width="0dp"
-        android:maxWidth="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="14dp"
-        android:text="@string/ticket_name"
         style="@style/Text.Header.Little"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="91dp"
+        android:layout_marginTop="16dp"
+        android:maxWidth="200dp"
+        android:text="@string/ticket_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -22,11 +24,13 @@
         android:id="@+id/picture"
         android:layout_width="52dp"
         android:layout_height="52dp"
-        android:maxWidth="200dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="14dp"
+        android:maxWidth="200dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/currentPrice"
@@ -48,7 +52,7 @@
         android:id="@+id/companyName"
         android:layout_width="wrap_content"
         android:maxWidth="180dp"
-        android:maxHeight="30dp"
+        android:maxHeight="80dp"
         android:autoSizeMaxTextSize="13sp"
         android:autoSizeMinTextSize="4sp"
         android:autoSizeStepGranularity="0.5sp"
@@ -76,11 +80,11 @@
         android:id="@+id/star"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toEndOf="@+id/ticketName"
-        app:layout_constraintTop_toTopOf="@+id/ticketName"
-        app:srcCompat="@drawable/grey_star"
-        android:onClick="changeFavourite"/>
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="20dp"
+        android:onClick="changeFavourite"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/grey_star" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

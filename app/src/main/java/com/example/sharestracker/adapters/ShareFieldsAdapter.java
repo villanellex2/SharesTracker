@@ -14,7 +14,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sharestracker.File.FavouriteStorage;
-import com.example.sharestracker.File.FileHandler;
 import com.example.sharestracker.R;
 
 import java.util.List;
@@ -41,7 +40,7 @@ public class ShareFieldsAdapter extends RecyclerView.Adapter<ShareFieldsAdapter.
         synchronized (ShareFieldsAdapter.class) {
             final ShareData ticketData = responseList.get(position);
             if (position % 2 == 1) {
-                holder.layout.setBackgroundColor(Color.parseColor("#F0F4F7"));
+                holder.layout.setBackgroundResource(R.drawable.gray_raunded_corner);
             } else {
                 holder.layout.setBackgroundColor(Color.parseColor("#FFFFFF"));
             }
@@ -55,8 +54,6 @@ public class ShareFieldsAdapter extends RecyclerView.Adapter<ShareFieldsAdapter.
             } else {
                 holder.star.setImageDrawable(context.getResources().getDrawable(R.drawable.grey_star));
             }
-            ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) holder.star.getLayoutParams();
-            params.leftMargin = ((ConstraintLayout.LayoutParams) holder.ticketName.getLayoutParams()).rightToLeft + 6;
             if (ticketData.getDayDelta().startsWith("-")) {
                 holder.dayDelta.setTextColor(Color.parseColor("#B22424"));
             } else {

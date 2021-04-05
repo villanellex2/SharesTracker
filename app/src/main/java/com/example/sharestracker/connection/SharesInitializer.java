@@ -6,6 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +24,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 
 public class SharesInitializer {
     private List<String> sharesName;
@@ -31,6 +36,8 @@ public class SharesInitializer {
     private final FileHandler handler;
     private final View animation;
     private TextView result;
+    private int counter = 0;
+    private CyclicBarrier barrier;
 
     public SharesInitializer(Context context, List<String> sharesNames, List<ShareData> states, ShareFieldsAdapter mAdapter,
                              View animation) {
@@ -57,6 +64,9 @@ public class SharesInitializer {
 
 
     public void fillSharesFiled() {
+        if (result != null){
+            result.setText("");
+        }
         animation.setVisibility(View.VISIBLE);
         for (String share : sharesName) {
             ShareData shareData = new ShareData(share);
@@ -71,54 +81,91 @@ public class SharesInitializer {
             preInitialized.add(shareData);
             mAdapter.notifyDataSetChanged();
         }
-        new CompanyGetter().execute();
+        for (ShareData data : preInitialized) {
+            new CompanyGetter().execute(data);
+        }
+        System.out.println(preInitialized.size() + "++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        barrier = new CyclicBarrier(preInitialized.size()+1);
+        new AnimationCloser().execute();
     }
 
-    private class CompanyGetter extends AsyncTask<Void, String, Integer> {
+    private class AnimationCloser extends AsyncTask<ShareData, String, Integer> {
 
         @Override
-        protected Integer doInBackground(Void... voids) {
-            int counter = 0;
-            for (ShareData shareData: preInitialized) {
-                try {
-                    String shareName = shareData.getName();
-                    String prices = null;
-                    try {
-                        prices = APIConnector.askTicket(shareName);
-                    }catch (FileNotFoundException ignored){}
-                    if (!shareData.isInitializedCompany()) {
-                        String companyProfile = APIConnector.getCompanyProfile(shareName);
-                        String url = (new JSONObject(companyProfile)).getString("logo");
-                        InputStream in = new java.net.URL(url).openStream();
-                        Bitmap bitmap = BitmapFactory.decodeStream(in);
-                        BitmapDrawable logo = new BitmapDrawable(res, bitmap);
-                        handler.storeImage(logo, shareName);
-                        shareData.setCompanyInfo(res, logo, companyProfile);
-                        handler.cacheShare(shareData.toString(), shareName);
-                    }
-                    if (prices != null) {
-                        shareData.setPrice(prices, CurrencyStock.getCurrencyToUSD((shareData.getCurrencyCode())));
-                    }
-                    counter++;
-                    if (!states.contains(shareData)) {
-                        states.add(shareData);
-                    }
-                } catch (Exception ignored) {}
+        protected Integer doInBackground(ShareData... data) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Integer s) {
+            try {
+                barrier.await();
+            } catch (BrokenBarrierException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            animation.setVisibility(View.INVISIBLE);
+            if (result != null){
+                result.setText("results: " + counter);
+            }
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private class CompanyGetter extends AsyncTask<ShareData, String, Integer> {
+        String companyProfile;
+        BitmapDrawable logo;
+        String shareName;
+
+        @Override
+        protected Integer doInBackground(ShareData... data) {
+            int counter = 0;
+            ShareData shareData = data[0];
+            try {
+                shareName = shareData.getName();
+                String prices = null;
+                try {
+                    prices = APIConnector.askTicket(shareName);
+                } catch (FileNotFoundException ignored) {}
+
+                if (!shareData.isInitializedCompany()) {
+                    companyProfile = APIConnector.getCompanyProfile(shareName);
+                    String url = (new JSONObject(companyProfile)).getString("logo");
+                    InputStream in = new java.net.URL(url).openStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(in);
+                    logo = new BitmapDrawable(res, bitmap);
+                    shareData.setCompanyInfo(res, logo, companyProfile);
+                }
+
+                if (prices != null) {
+                    shareData.setPrice(prices, CurrencyStock.getCurrencyToUSD((shareData.getCurrencyCode())));
+                }
+                counter++;
+                if (!states.contains(shareData)) {
+                    states.add(shareData);
+                }
+            } catch (Exception ignored) {}
+            new Thread(() -> {
+                try {
+                    barrier.await();
+                    Log.println(Log.INFO, "Barrier", "one out");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
             return counter;
         }
 
         @Override
         protected void onPostExecute(Integer s) {
             mAdapter.notifyDataSetChanged();
-            animation.setVisibility(View.INVISIBLE);
-            if (result != null){
-                if (s == 0){
-                    result.setText("no result");
-                }
-                else {
-                    result.setText("results: " + s);
-                }
+            counter += s;
+            if (logo != null && result == null) {
+                handler.storeImage(logo, shareName);
+            }
+            if (companyProfile != null && result == null) {
+                handler.cacheShare(companyProfile, shareName);
             }
         }
     }
@@ -127,7 +174,7 @@ public class SharesInitializer {
         JSONArray objects = result.getJSONArray("result");
         sharesName = new ArrayList<>();
         for (int i = 0; i < objects.length(); ++i) {
-            JSONObject obj = (JSONObject)objects.get(i);
+            JSONObject obj = (JSONObject) objects.get(i);
             String name = obj.getString("symbol");
             sharesName.add(name);
         }

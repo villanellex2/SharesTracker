@@ -9,7 +9,7 @@
         style="@style/Text"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:background="@drawable/last_searched_background"
+        android:background="@drawable/gray_raunded_corner"
         android:gravity="center"
         android:layout_margin="5dp"
         android:paddingEnd="15dp"

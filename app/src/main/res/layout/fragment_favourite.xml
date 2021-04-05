@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15sp"
-        android:layout_marginTop="88sp"
+        android:layout_marginTop="90dp"
         android:text="@string/stocks"
         style="@style/Text.Gray"
         app:layout_constraintStart_toStartOf="parent"
