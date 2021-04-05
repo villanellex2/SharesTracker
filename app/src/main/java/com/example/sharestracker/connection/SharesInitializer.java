@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 
-import com.example.sharestracker.adapters.FieldsAdapter;
+import com.example.sharestracker.adapters.ShareFieldsAdapter;
 import com.example.sharestracker.adapters.ShareData;
 
 import org.json.JSONObject;
@@ -20,10 +20,10 @@ public class SharesInitializer {
     private final List<String> sharesName;
     private final Resources res;
     private final List<ShareData> states;
-    FieldsAdapter mAdapter;
+    ShareFieldsAdapter mAdapter;
     FileHandler handler;
 
-    public SharesInitializer(Context context, List<String> sharesNames, Resources res, List<ShareData> states, FieldsAdapter mAdapter) {
+    public SharesInitializer(Context context, List<String> sharesNames, Resources res, List<ShareData> states, ShareFieldsAdapter mAdapter) {
         this.sharesName = sharesNames;
         this.mAdapter = mAdapter;
         this.states = states;

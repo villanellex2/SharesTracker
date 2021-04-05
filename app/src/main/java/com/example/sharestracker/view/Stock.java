@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,22 +12,22 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sharestracker.connection.FileHandler;
-import com.example.sharestracker.adapters.FieldsAdapter;
+import com.example.sharestracker.adapters.ShareFieldsAdapter;
 import com.example.sharestracker.R;
 import com.example.sharestracker.adapters.ShareData;
 import com.example.sharestracker.connection.SharesInitializer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Stock extends Fragment {
 
-    private final List<ShareData> list = new ArrayList<>();
+    private final List<ShareData> list = Collections.synchronizedList(new ArrayList<>());
     private RecyclerView mRecyclerView;
     final public String[] sharesNames = {"YNDX", "AAPL", "GOOGL", "AMZN", "BAC", "MSFT", "TSLA", "MA"};
-    private FieldsAdapter mAdapter;
+    private ShareFieldsAdapter mAdapter;
 
     @Override
     public View onCreateView(
@@ -38,7 +37,7 @@ public class Stock extends Fragment {
         View curr = inflater.inflate(R.layout.fragment_stock, container, false);
         mRecyclerView = curr.findViewById(R.id.recyclerView);
         list.clear();
-        mAdapter = new FieldsAdapter(getContext(), list);
+        mAdapter = new ShareFieldsAdapter(getContext(), list);
         ((MainActivity) getContext()).mAdapter = mAdapter;
         buildRecyclerView(curr);
         return curr;

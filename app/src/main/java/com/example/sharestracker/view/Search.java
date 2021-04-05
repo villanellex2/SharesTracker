@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +13,10 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sharestracker.adapters.FieldsAdapter;
+import com.example.sharestracker.adapters.ShareFieldsAdapter;
 import com.example.sharestracker.R;
 import com.example.sharestracker.adapters.ShareData;
 import com.example.sharestracker.connection.APIConnector;
@@ -30,23 +28,23 @@ import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 public class Search extends Fragment {
     private RecyclerView mRecyclerView;
-    private FieldsAdapter mAdapter;
-    private List<ShareData> states = new ArrayList<>();;
+    private ShareFieldsAdapter mAdapter;
+    private final List<ShareData> states = Collections.synchronizedList(new ArrayList<>());
 
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
+
         View curr = inflater.inflate(R.layout.fragment_search, container, false);
         mRecyclerView = curr.findViewById(R.id.recyclerView);
-        mAdapter = new FieldsAdapter(getContext(), states);
+        mAdapter = new ShareFieldsAdapter(getContext(), states);
 
         buildRecyclerView(curr);
         EditText search = curr.findViewById(R.id.editText);
@@ -62,10 +60,17 @@ public class Search extends Fragment {
             }
             return false;
         });
+
+        Bundle arguments = getArguments();
+        if (arguments != null && arguments.containsKey("input") &&
+                !arguments.getString("input").equals("")){
+            search.setText(arguments.getString("input"));
+            new findSymbols().execute(search.getText().toString());
+        }
         return curr;
     }
 
-    private class findSymbols extends AsyncTask<String, String, List<ShareData>> {
+    class findSymbols extends AsyncTask<String, String, List<ShareData>> {
 
         @Override
         protected List<ShareData> doInBackground(String ... symbol) {

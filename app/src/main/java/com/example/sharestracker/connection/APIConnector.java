@@ -7,17 +7,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.Permission;
 
 import static android.content.ContentValues.TAG;
 
 public class APIConnector {
-    private static String token = "&token=c1c8oaf48v6scqmqo1u0";
-    private static String apiKey = "&apikey=I9XXK6QHTDBIQTOJ";
+    private static final String finnhub_token = "&token=c1c8oaf48v6scqmqo1u0";
 
-    private static String doGet(String url, String symbol, String apiKey) throws IOException {
+    private static String doGet(String url, String symbol, String extra) throws IOException {
 
-        URL obj = new URL(url + symbol + apiKey);
+        URL obj = new URL(url + symbol + extra);
         Log.d(TAG, "Ask: " + obj);
         HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
 
@@ -39,11 +37,11 @@ public class APIConnector {
     }
 
     public static String askTicket(String shareName) throws IOException {
-        return doGet("https://finnhub.io/api/v1/quote?symbol=", shareName, token);
+        return doGet("https://finnhub.io/api/v1/quote?symbol=", shareName, finnhub_token);
     }
 
     public static String getCompanyProfile(String shareName) throws IOException {
-        return doGet("https://finnhub.io/api/v1/stock/profile2?symbol=", shareName, token);
+        return doGet("https://finnhub.io/api/v1/stock/profile2?symbol=", shareName, finnhub_token);
     }
 
     static String convertCurrency(String from, String to) throws IOException {
@@ -52,6 +50,6 @@ public class APIConnector {
     }
 
     public static String searchForSymbol(String symbol) throws IOException {
-        return doGet("https://finnhub.io/api/v1/search?q=", symbol, token);
+        return doGet("https://finnhub.io/api/v1/search?q=", symbol, finnhub_token);
     }
 }

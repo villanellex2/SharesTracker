@@ -1,6 +1,5 @@
 package com.example.sharestracker.adapters;
 
-
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -13,19 +12,17 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sharestracker.connection.FileHandler;
 import com.example.sharestracker.R;
-import com.google.android.material.transition.Hold;
+import com.example.sharestracker.connection.FileHandler;
 
 import java.util.List;
 
-
-public class FieldsAdapter extends RecyclerView.Adapter<FieldsAdapter.ViewHolder> {
+public class SearchFieldsAdapter extends RecyclerView.Adapter<ShareFieldsAdapter.ViewHolder> {
     Context context;
     List<ShareData> responseList;
     FileHandler handler;
 
-    public FieldsAdapter(Context context, List<ShareData> responseList) {
+    public SearchFieldsAdapter(Context context, List<ShareData> responseList) {
         this.context = context;
         this.responseList = responseList;
         handler = new FileHandler(context);
@@ -33,18 +30,17 @@ public class FieldsAdapter extends RecyclerView.Adapter<FieldsAdapter.ViewHolder
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ShareFieldsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.example_field, parent, false);
-        return new ViewHolder(view);
+        return new ShareFieldsAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ShareFieldsAdapter.ViewHolder holder, int position) {
         final ShareData ticketData = responseList.get(position);
         if (position % 2 == 1) {
             holder.layout.setBackgroundColor(Color.parseColor("#F0F4F7"));
-        }
-        else {
+        } else {
             holder.layout.setBackgroundColor(Color.parseColor("#FFFFFF"));
         }
         holder.picture.setImageDrawable(ticketData.getLogo());
@@ -54,12 +50,11 @@ public class FieldsAdapter extends RecyclerView.Adapter<FieldsAdapter.ViewHolder
         boolean isFavourite = handler.isFavourite(ticketData.getName());
         if (isFavourite) {
             holder.star.setImageDrawable(context.getResources().getDrawable(R.drawable.star));
-        }
-        else{
+        } else {
             holder.star.setImageDrawable(context.getResources().getDrawable(R.drawable.grey_star));
         }
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) holder.star.getLayoutParams();
-        params.leftMargin = ((ConstraintLayout.LayoutParams)holder.ticketName.getLayoutParams()).rightToLeft + 6;
+        params.leftMargin = ((ConstraintLayout.LayoutParams) holder.ticketName.getLayoutParams()).rightToLeft + 6;
         if (ticketData.getDayDelta().startsWith("-")) {
             holder.dayDelta.setTextColor(Color.parseColor("#B22424"));
         } else {

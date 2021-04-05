@@ -1,12 +1,9 @@
 package com.example.sharestracker.view;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,12 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sharestracker.connection.FileHandler;
 import com.example.sharestracker.R;
-import com.example.sharestracker.adapters.FieldsAdapter;
+import com.example.sharestracker.adapters.ShareFieldsAdapter;
 
 import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
-    public FieldsAdapter mAdapter;
+    public ShareFieldsAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceField) {
