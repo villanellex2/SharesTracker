@@ -47,11 +47,16 @@
     <TextView
         android:id="@+id/companyName"
         android:layout_width="wrap_content"
-        android:maxWidth="250dp"
+        android:maxWidth="180dp"
+        android:maxHeight="30dp"
+        android:autoSizeMaxTextSize="13sp"
+        android:autoSizeMinTextSize="4sp"
+        android:autoSizeStepGranularity="0.5sp"
+        android:autoSizeTextType="uniform"
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginTop="38dp"
-        android:text="5 days: 2 t/d"
+        android:text="company"
         style="@style/Text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

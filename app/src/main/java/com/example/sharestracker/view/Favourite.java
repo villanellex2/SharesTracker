@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sharestracker.File.FavouriteStorage;
-import com.example.sharestracker.File.FileHandler;
 import com.example.sharestracker.R;
 import com.example.sharestracker.adapters.ShareFieldsAdapter;
 import com.example.sharestracker.adapters.ShareData;
@@ -35,7 +34,7 @@ public class Favourite extends Fragment {
             Bundle savedInstanceState
     ) {
         View curr = inflater.inflate(R.layout.fragment_favourite, container, false);
-        mRecyclerView = curr.findViewById(R.id.recyclerViewFavourites);
+        mRecyclerView = curr.findViewById(R.id.recyclerView);
         animation =curr.findViewById(R.id.loading_animation);
         list.clear();
         mAdapter = new ShareFieldsAdapter(getContext(), list);

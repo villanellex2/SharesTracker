@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -21,8 +22,10 @@ import com.example.sharestracker.R;
 import com.example.sharestracker.adapters.ShareData;
 import com.example.sharestracker.connection.APIConnector;
 import com.example.sharestracker.connection.CurrencyStock;
+import com.example.sharestracker.connection.SharesInitializer;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
@@ -34,6 +37,8 @@ import java.util.List;
 public class Search extends Fragment {
     private RecyclerView mRecyclerView;
     private ShareFieldsAdapter mAdapter;
+    private View animation;
+    private TextView results;
     private final List<ShareData> states = Collections.synchronizedList(new ArrayList<>());
 
     @Override
@@ -45,7 +50,9 @@ public class Search extends Fragment {
         View curr = inflater.inflate(R.layout.fragment_search, container, false);
         mRecyclerView = curr.findViewById(R.id.recyclerView);
         mAdapter = new ShareFieldsAdapter(getContext(), states);
-
+        ((MainActivity)getContext()).mAdapter = mAdapter;
+        animation = curr.findViewById(R.id.loading_animation);
+        results = curr.findViewById(R.id.results);
         buildRecyclerView(curr);
         EditText search = curr.findViewById(R.id.editText);
         search.setOnKeyListener((v, keyCode, event) -> {
@@ -70,57 +77,28 @@ public class Search extends Fragment {
         return curr;
     }
 
-    class findSymbols extends AsyncTask<String, String, List<ShareData>> {
+    class findSymbols extends AsyncTask<String, String, JSONObject> {
 
         @Override
-        protected List<ShareData> doInBackground(String ... symbol) {
+        protected JSONObject doInBackground(String... symbol) {
             states.clear();
             try {
                 String searchResults = APIConnector.searchForSymbol(symbol[0]);
-                JSONArray objects = new JSONObject(searchResults).getJSONArray("result");
-                for (int i = 0; i < objects.length(); ++i) {
-                    JSONObject obj = (JSONObject)objects.get(i);
-                    String name = obj.getString("symbol");
-                    new CompanyGetter().execute(name);
-                }
+                JSONObject objects = new JSONObject(searchResults);
+                return objects;
             } catch (Exception e) {
                 return null;
             }
-            return states;
         }
-    }
-
-    private class CompanyGetter extends AsyncTask<String, String, String> {
 
         @Override
-        protected String doInBackground(String ... share) {
+        protected void onPostExecute(JSONObject obj) {
             try {
-                String companyProfile = APIConnector.getCompanyProfile(share[0]);
-                String price;
-                ShareData data = new ShareData(share[0]);
-                String url = (new JSONObject(companyProfile)).getString("logo");
-                InputStream in = new java.net.URL(url).openStream();
-                Bitmap bitmap = BitmapFactory.decodeStream(in);
-                BitmapDrawable logo = new BitmapDrawable(getResources(), bitmap);
-                data.setCompanyInfo(getResources(), logo, companyProfile);
-                try {
-                    price = APIConnector.askTicket(share[0]);
-                    String currency = data.getCurrencyCode();
-                    data.setPrice(price, CurrencyStock.getCurrencyToUSD(currency));
-                }
-                catch (FileNotFoundException e){
-                    data.setHasNo();
-                }
-                states.add(data);
-                return companyProfile;
-            } catch (Exception e) {
-                return null;
+                SharesInitializer initializer = new SharesInitializer(getContext(), obj, states, mAdapter, animation,results);
+                initializer.fillSharesFiled();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            mAdapter.notifyDataSetChanged();
         }
     }
 
