@@ -34,7 +34,7 @@ public class Favourite extends Fragment {
             Bundle savedInstanceState
     ) {
         View curr = inflater.inflate(R.layout.fragment_favourite, container, false);
-        mRecyclerView = curr.findViewById(R.id.recyclerView);
+        mRecyclerView = curr.findViewById(R.id.lastSearchedRecyclerView);
         animation =curr.findViewById(R.id.loading_animation);
         list.clear();
         mAdapter = new ShareFieldsAdapter(getContext(), list);

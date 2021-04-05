@@ -8,11 +8,14 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sharestracker.File.FavouriteStorage;
-import com.example.sharestracker.File.FileHandler;
 import com.example.sharestracker.R;
 import com.example.sharestracker.adapters.ShareFieldsAdapter;
 
@@ -57,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onResume() {
         super.onResume();
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.lastSearchedRecyclerView);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         Log.println(Log.INFO, "cache trimmed: ", String.valueOf(trimCache()));
@@ -85,5 +88,12 @@ public class MainActivity extends AppCompatActivity {
             FavouriteStorage.addToFavorite(this, share);
         }
         mAdapter.notifyDataSetChanged();
+    }
+
+    public void getRequest(View view){
+        NavController nav = Navigation.findNavController(this, R.id.last_searched_fragment);
+        Bundle bundle = new Bundle();
+        bundle.putString("input", ((TextView)view).getText().toString());
+        nav.navigate(R.id.SearchFragment, bundle);
     }
 }

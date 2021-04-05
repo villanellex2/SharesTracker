@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.example.sharestracker.File.FileHandler;
 import com.example.sharestracker.adapters.ShareFieldsAdapter;
 import com.example.sharestracker.adapters.ShareData;
-import com.example.sharestracker.view.MainActivity;
-import com.example.sharestracker.view.Search;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +25,6 @@ import java.util.List;
 public class SharesInitializer {
     private List<String> sharesName;
     private final Resources res;
-    private final Context context;
     private final List<ShareData> states;
     private final List<ShareData> preInitialized;
     private final ShareFieldsAdapter mAdapter;
@@ -42,7 +39,6 @@ public class SharesInitializer {
         this.states = states;
         this.res = context.getResources();
         handler = new FileHandler(context);
-        this.context = context;
         this.animation = animation;
         preInitialized = new ArrayList<>();
     }
@@ -54,7 +50,6 @@ public class SharesInitializer {
         this.states = states;
         this.res = context.getResources();
         handler = new FileHandler(context);
-        this.context = context;
         this.animation = animation;
         preInitialized = new ArrayList<>();
         this.result = result;

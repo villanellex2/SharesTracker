@@ -18,12 +18,12 @@ import com.example.sharestracker.File.FileHandler;
 
 import java.util.List;
 
-public class SearchFieldsAdapter extends RecyclerView.Adapter<ShareFieldsAdapter.ViewHolder> {
+public class SearchFieldsAdapter extends RecyclerView.Adapter<SearchFieldsAdapter.ViewHolder> {
     Context context;
-    List<ShareData> responseList;
+    List<String> responseList;
     FileHandler handler;
 
-    public SearchFieldsAdapter(Context context, List<ShareData> responseList) {
+    public SearchFieldsAdapter(Context context, List<String> responseList) {
         this.context = context;
         this.responseList = responseList;
         handler = new FileHandler(context);
@@ -31,37 +31,15 @@ public class SearchFieldsAdapter extends RecyclerView.Adapter<ShareFieldsAdapter
 
     @NonNull
     @Override
-    public ShareFieldsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.example_field, parent, false);
-        return new ShareFieldsAdapter.ViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.text_to_search, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ShareFieldsAdapter.ViewHolder holder, int position) {
-        final ShareData ticketData = responseList.get(position);
-        if (position % 2 == 1) {
-            holder.layout.setBackgroundColor(Color.parseColor("#F0F4F7"));
-        } else {
-            holder.layout.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        }
-        holder.picture.setImageDrawable(ticketData.getLogo());
-        holder.companyName.setText(ticketData.getCompanyName());
-        holder.ticketName.setText(ticketData.getName());
-        holder.dayDelta.setText(ticketData.getDayDelta());
-        boolean isFavourite = FavouriteStorage.isFavourite(context, ticketData.getName());
-        if (isFavourite) {
-            holder.star.setImageDrawable(context.getResources().getDrawable(R.drawable.star));
-        } else {
-            holder.star.setImageDrawable(context.getResources().getDrawable(R.drawable.grey_star));
-        }
-        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) holder.star.getLayoutParams();
-        params.leftMargin = ((ConstraintLayout.LayoutParams) holder.ticketName.getLayoutParams()).rightToLeft + 6;
-        if (ticketData.getDayDelta().startsWith("-")) {
-            holder.dayDelta.setTextColor(Color.parseColor("#B22424"));
-        } else {
-            holder.dayDelta.setTextColor(Color.parseColor("#24B25D"));
-        }
-        holder.currentPrice.setText(ticketData.getCurrentPrice());
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        final String request = responseList.get(position);
+        holder.textView.setText(request);
     }
 
 
@@ -72,19 +50,11 @@ public class SearchFieldsAdapter extends RecyclerView.Adapter<ShareFieldsAdapter
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView ticketName, companyName, currentPrice, dayDelta;
-        final ImageView picture, star;
-        final ConstraintLayout layout;
+        final TextView textView;
 
         ViewHolder(View view) {
             super(view);
-            picture = view.findViewById(R.id.picture);
-            star = view.findViewById(R.id.star);
-            ticketName = view.findViewById(R.id.ticketName);
-            companyName = view.findViewById(R.id.companyName);
-            dayDelta = view.findViewById(R.id.dayDelta);
-            layout = view.findViewById(R.id.example_field);
-            currentPrice = view.findViewById(R.id.currentPrice);
+            textView = view.findViewById(R.id.searchTextView);
         }
 
     }

@@ -1,8 +1,5 @@
 package com.example.sharestracker.view;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -17,19 +14,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sharestracker.File.LastSearchedStorage;
 import com.example.sharestracker.adapters.ShareFieldsAdapter;
 import com.example.sharestracker.R;
 import com.example.sharestracker.adapters.ShareData;
 import com.example.sharestracker.connection.APIConnector;
-import com.example.sharestracker.connection.CurrencyStock;
 import com.example.sharestracker.connection.SharesInitializer;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,9 +42,9 @@ public class Search extends Fragment {
     ) {
 
         View curr = inflater.inflate(R.layout.fragment_search, container, false);
-        mRecyclerView = curr.findViewById(R.id.recyclerView);
+        mRecyclerView = curr.findViewById(R.id.lastSearchedRecyclerView);
         mAdapter = new ShareFieldsAdapter(getContext(), states);
-        ((MainActivity)getContext()).mAdapter = mAdapter;
+        ((MainActivity) getContext()).mAdapter = mAdapter;
         animation = curr.findViewById(R.id.loading_animation);
         results = curr.findViewById(R.id.results);
         buildRecyclerView(curr);
@@ -70,7 +64,7 @@ public class Search extends Fragment {
 
         Bundle arguments = getArguments();
         if (arguments != null && arguments.containsKey("input") &&
-                !arguments.getString("input").equals("")){
+                !arguments.getString("input").equals("")) {
             search.setText(arguments.getString("input"));
             new findSymbols().execute(search.getText().toString());
         }
@@ -81,6 +75,7 @@ public class Search extends Fragment {
 
         @Override
         protected JSONObject doInBackground(String... symbol) {
+            LastSearchedStorage.addToLastSearched(getContext(), symbol[0]);
             states.clear();
             try {
                 String searchResults = APIConnector.searchForSymbol(symbol[0]);
@@ -94,7 +89,7 @@ public class Search extends Fragment {
         @Override
         protected void onPostExecute(JSONObject obj) {
             try {
-                SharesInitializer initializer = new SharesInitializer(getContext(), obj, states, mAdapter, animation,results);
+                SharesInitializer initializer = new SharesInitializer(getContext(), obj, states, mAdapter, animation, results);
                 initializer.fillSharesFiled();
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -41,7 +41,7 @@
 
         <fragment
             android:id="@+id/SearchWelcomeFragment"
-            android:name="com.example.sharestracker.view.SearchWelcome"
+            android:name="com.example.sharestracker.view.SearchExamples"
             android:label="Search welcome Fragment"
             tools:layout="@layout/last_searched_fragment">
             <action

@@ -15,18 +15,16 @@ import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.example.sharestracker.File.LastSearchedStorage;
 import com.example.sharestracker.R;
-import com.example.sharestracker.adapters.ShareFieldsAdapter;
-import com.example.sharestracker.adapters.ShareData;
+import com.example.sharestracker.adapters.SearchFieldsAdapter;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
-public class SearchWelcome  extends Fragment {
-    private RecyclerView mRecyclerView;
-    private ShareFieldsAdapter mAdapter;
-    private final List<ShareData> states = Collections.synchronizedList(new ArrayList<>());
+public class SearchExamples extends Fragment {
+    private RecyclerView mRecyclerViewLast;
+    private RecyclerView mRecyclerViewPopular;
 
     @Override
     public View onCreateView(
@@ -34,8 +32,8 @@ public class SearchWelcome  extends Fragment {
             Bundle savedInstanceState
     ) {
         View curr = inflater.inflate(R.layout.last_searched_fragment, container, false);
-        mRecyclerView = curr.findViewById(R.id.recyclerView);
-        mAdapter = new ShareFieldsAdapter(getContext(), states);
+        mRecyclerViewLast = curr.findViewById(R.id.lastSearchedRecyclerView);
+        mRecyclerViewPopular = curr.findViewById(R.id.popularRecyclerView);
 
         buildRecyclerView(curr);
         EditText search = curr.findViewById(R.id.editText);
@@ -43,7 +41,7 @@ public class SearchWelcome  extends Fragment {
             if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
                     (keyCode == KeyEvent.KEYCODE_ENTER)) {
                 try {
-                    NavController nav = NavHostFragment.findNavController(SearchWelcome.this);
+                    NavController nav = NavHostFragment.findNavController(SearchExamples.this);
                     Bundle bundle = new Bundle();
                     bundle.putString("input", search.getText().toString());
                     nav.navigate(R.id.SearchFragment, bundle);
@@ -60,9 +58,12 @@ public class SearchWelcome  extends Fragment {
 
     private void buildRecyclerView(View view) {
         StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, OrientationHelper.HORIZONTAL);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-
+        mRecyclerViewLast.setLayoutManager(mLayoutManager);
+        mRecyclerViewLast.setAdapter(new SearchFieldsAdapter(getContext(), LastSearchedStorage.getLastSearched(getContext())));
+        mLayoutManager = new StaggeredGridLayoutManager(2, OrientationHelper.HORIZONTAL);
+        mRecyclerViewPopular.setLayoutManager(mLayoutManager);
+        List<String> popular = Arrays.asList("Amazon", "Apple", "Google", "Tesla", "Alibaba", "Yandex", "Facebook", "First Solar", "Microsoft", "Visa");
+        mRecyclerViewPopular.setAdapter(new SearchFieldsAdapter(getContext(), popular));
     }
 
 

@@ -7,4 +7,6 @@
     <string name="find_company_or_ticker">Find company or ticket</string>
     <string name="ticket_name">Ticket name</string>
     <string name="search">Search</string>
+    <string name="you_ve_searched_for_this">You’ve searched for this</string>
+    <string name="popular_requests">Popular requests</string>
 </resources>

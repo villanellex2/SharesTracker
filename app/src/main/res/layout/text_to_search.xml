@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+    android:id="@+id/text_to_search"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/searchTextView"
+        style="@style/Text"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@drawable/last_searched_background"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:paddingEnd="15dp"
+        android:paddingStart="15dp"
+        android:text="@string/find_company_or_ticker"
+        android:onClick="getRequest"/>
+</LinearLayout>
