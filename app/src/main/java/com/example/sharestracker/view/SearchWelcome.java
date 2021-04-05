@@ -72,9 +72,10 @@ public class SearchWelcome  extends Fragment {
 
 
     private void buildRecyclerView(View view) {
-        StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, OrientationHelper.VERTICAL);
-       // mRecyclerView.setLayoutManager(mLayoutManager);
-        //mRecyclerView.setAdapter(mAdapter);
+        StaggeredGridLayoutManager mLayoutManager = new StaggeredGridLayoutManager(2, OrientationHelper.HORIZONTAL);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
     }
 
 

@@ -11,7 +11,7 @@ import java.net.URL;
 import static android.content.ContentValues.TAG;
 
 public class APIConnector {
-    private static final String finnhub_token = "&token=c1c8oaf48v6scqmqo1u0";
+    private static String token = "&token=c1c8oaf48v6scqmqo1u0";
 
     private static String doGet(String url, String symbol, String extra) throws IOException {
 
@@ -37,11 +37,11 @@ public class APIConnector {
     }
 
     public static String askTicket(String shareName) throws IOException {
-        return doGet("https://finnhub.io/api/v1/quote?symbol=", shareName, finnhub_token);
+        return doGet("https://finnhub.io/api/v1/quote?symbol=", shareName, token);
     }
 
     public static String getCompanyProfile(String shareName) throws IOException {
-        return doGet("https://finnhub.io/api/v1/stock/profile2?symbol=", shareName, finnhub_token);
+        return doGet("https://finnhub.io/api/v1/stock/profile2?symbol=", shareName, token);
     }
 
     static String convertCurrency(String from, String to) throws IOException {
@@ -50,6 +50,6 @@ public class APIConnector {
     }
 
     public static String searchForSymbol(String symbol) throws IOException {
-        return doGet("https://finnhub.io/api/v1/search?q=", symbol, finnhub_token);
+        return doGet("https://finnhub.io/api/v1/search?q=", symbol, token);
     }
 }

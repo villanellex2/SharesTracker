@@ -1,4 +1,4 @@
-package com.example.sharestracker.connection;
+package com.example.sharestracker.File;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -17,22 +17,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class FileHandler {
-    static final String favouriteFile = "favoriteStorage";
     static final String lastSearchedFile = "lastSearched";
     private static List<String> lastSearched;
-    private static List<String> favouriteShares;
-    private final Context context;
+    private Context context;
 
     public FileHandler(Context context) {
         this.context = context;
     }
 
-    public boolean isFavourite(String shareName) {
-        favouriteShares = initializeFile(favouriteFile, favouriteShares);
-        return favouriteShares.contains(shareName);
-    }
-
-    private List<String> initializeFile(String fileName, List<String> result) {
+    List<String> initializeFile(String fileName, List<String> result) {
         if (!isFilePresent(context, fileName)) {
             result = new ArrayList<>();
             create(context, fileName, "");
@@ -42,41 +35,6 @@ public class FileHandler {
         return result;
     }
 
-    private String getListAsString() {
-        StringBuilder builder = new StringBuilder();
-        for (String s : favouriteShares) {
-            builder.append(s);
-            builder.append("&%1414]");
-        }
-        return builder.toString();
-    }
-
-    public boolean deleteFromFavourite(String share) {
-        if (isFavourite(share)) {
-            favouriteShares.remove(share);
-            return create(context, favouriteFile, getListAsString());
-        }
-        return true;
-    }
-
-    public boolean addToFavorite(String share) {
-        if (!isFavourite(share)) {
-            favouriteShares.add(share);
-            return create(context, favouriteFile, getListAsString());
-        }
-        return true;
-    }
-
-    public List<String> getFavoritesList() {
-        favouriteShares = initializeFile(favouriteFile, favouriteShares);
-        ArrayList<String> res = new ArrayList<>();
-        for(String s: favouriteShares){
-            if (!s.equals("")){
-                res.add(s);
-            }
-        }
-        return res;
-    }
 
     public boolean isCached(String share) {
         return isFilePresent(context, share + ".json");
@@ -113,7 +71,7 @@ public class FileHandler {
         }
     }
 
-    private String read(Context context, String fileName) {
+    static String read(Context context, String fileName) {
         synchronized (FileHandler.class) {
             try {
                 FileInputStream fis = context.openFileInput(fileName);
@@ -131,7 +89,7 @@ public class FileHandler {
         }
     }
 
-    private boolean create(Context context, String fileName, String jsonString) {
+    static boolean create(Context context, String fileName, String jsonString) {
         synchronized (FileHandler.class) {
             try {
                 FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
@@ -146,7 +104,7 @@ public class FileHandler {
         }
     }
 
-    private boolean isFilePresent(Context context, String fileName) {
+    static boolean isFilePresent(Context context, String fileName) {
         synchronized (FileHandler.class) {
             String path = context.getFilesDir() + "/" + fileName;
             File file = new File(path);

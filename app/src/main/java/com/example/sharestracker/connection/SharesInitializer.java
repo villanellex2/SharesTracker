@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 
+import com.example.sharestracker.File.FileHandler;
 import com.example.sharestracker.adapters.ShareFieldsAdapter;
 import com.example.sharestracker.adapters.ShareData;
 

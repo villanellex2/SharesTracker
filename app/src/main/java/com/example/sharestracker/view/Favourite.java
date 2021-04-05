@@ -12,7 +12,8 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sharestracker.connection.FileHandler;
+import com.example.sharestracker.File.FavouriteStorage;
+import com.example.sharestracker.File.FileHandler;
 import com.example.sharestracker.R;
 import com.example.sharestracker.adapters.ShareFieldsAdapter;
 import com.example.sharestracker.adapters.ShareData;
@@ -47,8 +48,7 @@ public class Favourite extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
-        FileHandler handler = new FileHandler(getContext());
-        List<String> sharesNames = handler.getFavoritesList();
+        List<String> sharesNames = FavouriteStorage.getFavoritesList(getContext());
         SharesInitializer initializer = new SharesInitializer(getContext(), sharesNames,
                 getResources(), list, mAdapter);
         initializer.fillSharesFiled();

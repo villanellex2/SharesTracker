@@ -11,7 +11,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sharestracker.connection.FileHandler;
+import com.example.sharestracker.File.FavouriteStorage;
+import com.example.sharestracker.File.FileHandler;
 import com.example.sharestracker.R;
 import com.example.sharestracker.adapters.ShareFieldsAdapter;
 
@@ -77,12 +78,11 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout layout = (ConstraintLayout) view.getParent();
         TextView shareNameView = (TextView) layout.getChildAt(0);
         String share = shareNameView.getText().toString();
-        FileHandler handler = new FileHandler(this);
-        if (handler.isFavourite(share)){
-            handler.deleteFromFavourite(share);
+        if (FavouriteStorage.isFavourite(this,share)){
+            FavouriteStorage.deleteFromFavourite(this, share);
         }
         else {
-            handler.addToFavorite(share);
+            FavouriteStorage.addToFavorite(this, share);
         }
         mAdapter.notifyDataSetChanged();
     }

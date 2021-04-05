@@ -12,8 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sharestracker.File.FavouriteStorage;
 import com.example.sharestracker.R;
-import com.example.sharestracker.connection.FileHandler;
+import com.example.sharestracker.File.FileHandler;
 
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class SearchFieldsAdapter extends RecyclerView.Adapter<ShareFieldsAdapter
         holder.companyName.setText(ticketData.getCompanyName());
         holder.ticketName.setText(ticketData.getName());
         holder.dayDelta.setText(ticketData.getDayDelta());
-        boolean isFavourite = handler.isFavourite(ticketData.getName());
+        boolean isFavourite = FavouriteStorage.isFavourite(context, ticketData.getName());
         if (isFavourite) {
             holder.star.setImageDrawable(context.getResources().getDrawable(R.drawable.star));
         } else {
